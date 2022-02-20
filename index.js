@@ -1,6 +1,7 @@
 const input = document.querySelector('.input');
 const btn = document.querySelector('#save-btn');
 const delBtn = document.querySelector('#del-btn');
+const tabBtn = document.querySelector('#tab-btn');
 
 const list = document.getElementById('list');
 let items = localStorage.getItem("items");
@@ -24,6 +25,16 @@ btn.addEventListener('click', () => {
 
 delBtn.addEventListener('click', () => {
     localStorage.clear();
+})
+
+
+tabBtn.addEventListener('click', () => {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        let tab = tabs[0];
+        items.push(tab.url);
+        localStorage.setItem("items",items);
+        updateDom();
+    })
 })
 
 function updateDom() {
